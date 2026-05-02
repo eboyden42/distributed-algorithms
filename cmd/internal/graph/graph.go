@@ -4,9 +4,9 @@ import (
 	"fmt"
 )
 
-type Graph [][]bool
+type Graph [][]float64
 
-func New(adj [][]bool) (Graph, error) {
+func New(adj [][]float64) (Graph, error) {
 	for r, l := range adj {
 		// check that the 2d slice is square
 		if len(l) != len(adj) {
@@ -24,7 +24,7 @@ func New(adj [][]bool) (Graph, error) {
 
 func (g Graph) IsConnected(a, b int) bool {
 	if 0 <= a && a < len(g) && 0 <= b && b < len(g[0]) {
-		return g[a][b]
+		return g[a][b] != 0
 	}
 	panic(fmt.Errorf("Index (%d, %d) out of bounds for size (%d, %d). \n", a, b, len(g), len(g[0])))
 }
@@ -33,7 +33,7 @@ func (g Graph) GetConnectedNodes(a int) []int {
 	if 0 <= a && a < len(g) {
 		res := []int{}
 		for i, b := range g[a] {
-			if b {
+			if b != 0 {
 				res = append(res, i)
 			}
 		}

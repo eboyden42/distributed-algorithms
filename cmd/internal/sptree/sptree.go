@@ -84,7 +84,7 @@ func (s *SPTreeGraph) Send() {
 func (s SPTreeGraph) PrintRoundData(roundNumber int) {
 	fmt.Printf("-------------(Round %d)--------------\n", roundNumber)
 	for i, nodeData := range s.roundData {
-		fmt.Printf("%d: Sent %v; Recvd: %v; Next Hop: %d; Root: %d \n", i, nodeData.sent, nodeData.recieved, nodeData.nextHop, nodeData.currRoot)
+		fmt.Printf("%d: Sent: %v; Recvd: %v; Next Hop: %d; Root: %d \n", i, nodeData.sent, nodeData.recieved, nodeData.nextHop, nodeData.currRoot)
 	}
 }
 
