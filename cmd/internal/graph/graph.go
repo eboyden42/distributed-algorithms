@@ -41,3 +41,7 @@ func (g Graph) GetConnectedNodes(a int) []int {
 	}
 	panic(fmt.Errorf("Index %d out of bounds for length %d. \n", a, len(g)))
 }
+
+func (g Graph) GetWeight(i, j int) float64 {
+	return g[i][j]
+}
