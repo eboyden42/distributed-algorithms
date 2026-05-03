@@ -22,7 +22,9 @@ func New(g graph.Graph) *DVGraph {
 		for node := range n {
 			weight := g.GetWeight(node, i)
 			if weight == 0 {
-				tableEntries[node].distance = math.Inf(1)
+				if node != i {
+					tableEntries[node].distance = math.Inf(1)
+				}
 			} else {
 				tableEntries[node].distance = weight
 				tableEntries[node].nextHop = node
