@@ -21,7 +21,7 @@ func main() {
 		{2, 0, 2, 0, 4},
 		{0, 0, 1, 4, 0},
 	}
-	g, err := graph.New(adj)
+	g, err := graph.NewFloatAdj(adj)
 	if err != nil {
 		panic(err)
 	}

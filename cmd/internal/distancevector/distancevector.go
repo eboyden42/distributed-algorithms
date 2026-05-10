@@ -9,10 +9,10 @@ import (
 	"github.com/eboyden42/distributed-algorithms/cmd/internal/minheap"
 )
 
-func New(g graph.Graph) *DVGraph {
+func New(g graph.Graph[float64]) *DVAlgorithm {
 	nodeInfo := []Node{}
 	minHeap := minheap.New()
-	n := len(g)
+	n := g.Len()
 
 	// interate through each node
 	for i := range n {
@@ -41,10 +41,10 @@ func New(g graph.Graph) *DVGraph {
 		nodeInfo = append(nodeInfo, Node{tableEntries})
 	}
 
-	return &DVGraph{g, nodeInfo, minHeap}
+	return &DVAlgorithm{g, nodeInfo, minHeap}
 }
 
-func (d *DVGraph) Run() {
+func (d *DVAlgorithm) Run() {
 	// while the heap has messages left
 	for d.MinHeap.Len() > 0 {
 		// pop message off the heap
@@ -79,7 +79,7 @@ func (d *DVGraph) Run() {
 	}
 }
 
-func (d DVGraph) PrintRoutingTables() {
+func (d DVAlgorithm) PrintRoutingTables() {
 	for node, nodeData := range d.NodeInfo {
 		fmt.Printf("---- Table for node %d ----\n", node)
 		for dest, entry := range nodeData.forwardingTable {

@@ -26,8 +26,8 @@ type Node struct {
 	forwardingTable []TableEntry
 }
 
-type DVGraph struct {
-	g        graph.Graph
+type DVAlgorithm struct {
+	g        graph.Graph[float64]
 	NodeInfo []Node
 	MinHeap  heap.Interface
 }

@@ -6,27 +6,14 @@ import (
 	"github.com/eboyden42/distributed-algorithms/cmd/internal/graph"
 )
 
-type Message struct {
-	root     int
-	distance int
-	from     int
-}
-
-type NodeData struct {
-	sent         []Message
-	recieved     []Message
-	nextHop      int
-	currRoot     int
-	currDistance int
-}
-
-type SPTreeGraph struct {
-	g         graph.Graph
+// SPTreeAlgorithm structs store a graph to get connections from, and NodeData (as defined in graph/types) for each node.
+type SPTreeAlgorithm struct {
+	g         graph.Graph[float64]
 	roundData []NodeData
 }
 
-func New(g graph.Graph) SPTreeGraph {
-	n := len(g)
+func New(g graph.Graph[float64]) SPTreeAlgorithm {
+	n := g.Len()
 	roundData := []NodeData{}
 	for i := range n {
 		nodeData := NodeData{
@@ -38,10 +25,10 @@ func New(g graph.Graph) SPTreeGraph {
 		}
 		roundData = append(roundData, nodeData)
 	}
-	return SPTreeGraph{g, roundData}
+	return SPTreeAlgorithm{g, roundData}
 }
 
-func (s *SPTreeGraph) Recieve() {
+func (s *SPTreeAlgorithm) recieve() {
 	// iterate through each node
 	for i := range len(s.roundData) {
 		// clear recieved slice
@@ -59,7 +46,7 @@ func (s *SPTreeGraph) Recieve() {
 	}
 }
 
-func (s *SPTreeGraph) Send() {
+func (s *SPTreeAlgorithm) send() {
 	for i := range len(s.roundData) {
 		// clear sent slice
 		s.roundData[i].sent = nil
@@ -81,14 +68,14 @@ func (s *SPTreeGraph) Send() {
 	}
 }
 
-func (s SPTreeGraph) PrintRoundData(roundNumber int) {
+func (s SPTreeAlgorithm) PrintRoundData(roundNumber int) {
 	fmt.Printf("-------------(Round %d)--------------\n", roundNumber)
 	for i, nodeData := range s.roundData {
 		fmt.Printf("%d: Sent: %v; Recvd: %v; Next Hop: %d; Root: %d \n", i, nodeData.sent, nodeData.recieved, nodeData.nextHop, nodeData.currRoot)
 	}
 }
 
-func (s SPTreeGraph) messagesAreLeft() bool {
+func (s SPTreeAlgorithm) messagesAreLeft() bool {
 	for _, nodeData := range s.roundData {
 		if len(nodeData.recieved) != 0 || len(nodeData.sent) != 0 {
 			return true
@@ -97,11 +84,11 @@ func (s SPTreeGraph) messagesAreLeft() bool {
 	return false
 }
 
-func (s *SPTreeGraph) Run() {
+func (s *SPTreeAlgorithm) Run() {
 	s.PrintRoundData(0)
 	for i := 1; s.messagesAreLeft(); i++ {
-		s.Recieve()
-		s.Send()
+		s.recieve()
+		s.send()
 		s.PrintRoundData(i)
 	}
 }
