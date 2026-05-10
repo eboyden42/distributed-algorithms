@@ -1,5 +1,9 @@
 package distancevector
 
+// distancevector is a package that can run the Distance Vector distributed routing algorithm.
+// It does this by using a weighted graph (where weights are latencies assuming no transmission delay) and a min-heap of
+// events indexed by time so that the next event is always processed chronologically.
+
 import (
 	"container/heap"
 	"fmt"
@@ -8,6 +12,12 @@ import (
 	"github.com/eboyden42/distributed-algorithms/cmd/internal/graph"
 	"github.com/eboyden42/distributed-algorithms/cmd/internal/minheap"
 )
+
+type DVAlgorithm struct {
+	g        graph.Graph[float64]
+	NodeInfo []Node
+	MinHeap  heap.Interface
+}
 
 func New(g graph.Graph[float64]) *DVAlgorithm {
 	nodeInfo := []Node{}

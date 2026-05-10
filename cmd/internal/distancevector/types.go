@@ -1,11 +1,5 @@
 package distancevector
 
-import (
-	"container/heap"
-
-	"github.com/eboyden42/distributed-algorithms/cmd/internal/graph"
-)
-
 type DVMessage struct {
 	arrivalTime float64
 	to          int
@@ -24,10 +18,4 @@ type TableEntry struct {
 
 type Node struct {
 	forwardingTable []TableEntry
-}
-
-type DVAlgorithm struct {
-	g        graph.Graph[float64]
-	NodeInfo []Node
-	MinHeap  heap.Interface
 }
